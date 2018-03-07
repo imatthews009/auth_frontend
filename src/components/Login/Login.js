@@ -36,8 +36,8 @@ export default class Login extends React.Component {
                   {username: res.data.username},
                   {role: res.data.role},
               ]});
-            console.log(res.data);
-            console.log('state', this.state.userDetail);
+            // console.log(res.data);
+            console.log('state', this.state.userDetail[1].email);
           });
         })
         .catch(function (error) {
@@ -63,12 +63,16 @@ export default class Login extends React.Component {
         </div>
       
     }
+
+    // pass user id and email to invitation as props to create new invitation
     let invitationForm = ''
     if (this.state.jwt_token !== '') {
       invitationForm = <Invitation
-                        id={this.state.userDetail[0].id}/>
+                        id={this.state.userDetail[0].id}
+                        email={this.state.userDetail[1].email}/>
     }
 
+    // pass user id to allow user to get a list of invitations they've sent
     let invitations = ''
     if (this.state.userDetail[0].id !== '') {
       invitations = <Invitations

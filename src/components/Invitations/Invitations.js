@@ -30,13 +30,19 @@ export default class Invitation extends React.Component {
 
 
   render() {
-
+    let date = ''
+    
     return (
       (this.state.invitedUsers.map((invitation, index) => {
+        if (invitation.viewed_at) {
+          date = invitation.viewed_at
+        } else {
+          date = invitation.created_at
+        }
         return (
           <div className="inviteStatus">
             <h1>E-mail: {invitation.email}</h1>
-            <h1>Status: {invitation.status}</h1>
+            <h1>This invitation was {invitation.status} {date.substring(0,10)} </h1>
           </div>
         )
     }))
