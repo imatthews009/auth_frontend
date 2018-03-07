@@ -49,6 +49,7 @@ class App extends Component {
             })
         });
     }
+    console.log(this.state);
   }
 
   loginForm = () => {
@@ -56,6 +57,7 @@ class App extends Component {
       loginForm: true,
       registerForm: false
     });
+    console.log(this.state);
   }
 
   registerForm = () => {
@@ -112,9 +114,9 @@ class App extends Component {
         )
     };
 
-    //invitation message and inviter email
+    // invitation message and inviter email
     var inv = ""
-    if(this.state.invitationDetail) {
+    if(this.state.invitationDetail.length !== 0) {
       inv = (
         <div className='invDetail'>
           <h1>Invited by: {this.state.invitationDetail[0].sender_email}</h1>

@@ -13,7 +13,8 @@ export default class Login extends React.Component {
       {email: ""},
       {username: ""},
       {role: ""},
-    ] 
+    ],
+    displayLogin: true,
   }
 
 
@@ -36,14 +37,14 @@ export default class Login extends React.Component {
                   {username: res.data.username},
                   {role: res.data.role},
               ]});
-            // console.log(res.data);
-            console.log('state', this.state.userDetail[1].email);
+            this.setState({displayLogin: !this.state.displayLogin})
           });
         })
         .catch(function (error) {
           console.log(error);
         });
   }
+
 
   render() {
 
@@ -56,10 +57,10 @@ export default class Login extends React.Component {
 
       var userInformation = 
         <div className='user-detail'>
-          <h1>ID: {id}</h1>
-          <h1>Email: {email}</h1>
-          <h1>Username: {username}</h1>
-          <h1>Role: {role}</h1>
+          {/* <h1>ID: {id}</h1>
+          <h1>Email: {email}</h1> */}
+          <h1>Hello {username}</h1>
+          {/* <h1>Role: {role}</h1> */}
         </div>
       
     }
@@ -75,14 +76,20 @@ export default class Login extends React.Component {
     // pass user id to allow user to get a list of invitations they've sent
     let invitations = ''
     if (this.state.userDetail[0].id !== '') {
-      invitations = <Invitations
-                    id={this.state.userDetail[0].id}/>  
+      invitations = (
+        <div>
+          <h1>Your Invitations</h1>
+          <Invitations
+          id={this.state.userDetail[0].id}/> 
+        </div>
+      )
+       
 
     }
 
     return (
       <div>
-        <form onSubmit={this.handleLogin}>
+        <form onSubmit={this.handleLogin} className='loginForm' style={{display: this.state.displayLogin ? 'block' : 'none' }}>
 
           <label htmlFor="email">Email: </label>
           <input

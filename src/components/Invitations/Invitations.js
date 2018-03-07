@@ -40,9 +40,10 @@ export default class Invitation extends React.Component {
           date = invitation.created_at
         }
         return (
+
           <div className="inviteStatus">
-            <h1>E-mail: {invitation.email}</h1>
-            <h1>This invitation was {invitation.status} {date.substring(0,10)} </h1>
+            <h2>E-mail: {invitation.email}</h2>
+            <h2>This invitation was {invitation.status} {date.substring(0,10)} </h2>
           </div>
         )
     }))

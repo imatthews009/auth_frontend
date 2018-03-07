@@ -23,11 +23,13 @@ export default class Invitation extends React.Component {
         });
   }
 
+
   render() {
 
     let inviteForm = '';
       inviteForm = (
         <div className='inviteForm'>
+          <textarea name="message" form="invitationForm" placeholder='Enter text here...'></textarea>
           <form onSubmit={this.handleInvitation} id="invitationForm">
 
             <label htmlFor="email">Email: </label>
@@ -44,7 +46,6 @@ export default class Invitation extends React.Component {
             </button>
 
           </form>
-          <textarea name="message" form="invitationForm">Enter text here...</textarea>
         </div>
       )
     
