@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import Invitation from '../Invitation/Invitation';
+
 import Invitations from '../Invitations/Invitations';
 
 
@@ -50,7 +50,6 @@ export default class Login extends React.Component {
   }
 
   handleInvitations = () => {
-    console.log('worked');
     axios.get("http://localhost:5000/invitations")
       .then(res => {
         let invited = []
@@ -72,7 +71,7 @@ export default class Login extends React.Component {
     e.preventDefault();
     const email = e.target.email.value
     const message = e.target.message.value
-    const request = {"email": email, "id": this.state.userDetail[0].id, "message": message, "sender_email": this.state.userDetail[1].id}
+    const request = {"email": email, "id": this.state.userDetail[0].id, "message": message, "sender_email": this.state.userDetail[1].email}
     axios.post("http://localhost:5000/invitations/create", request)
         .then(res => {
             this.setState({token: res.data.invitation_token}) 

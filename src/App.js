@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 import Login from '../src/components/Login/Login';
-import Invitation from '../src/components/Invitation/Invitation';
+
 
 
 class App extends Component {
@@ -18,11 +18,12 @@ class App extends Component {
     ],
     invitationToken: '',
     senderId: '',
-    invitationDetail: '',
+    invitationDetail: []
   }
 
   componentWillMount() {
     // grabbing invitation token from url. Putting invitation detail in state.
+    console.log('test');
     let invitationToken = '';
     var SearchString = window.location.search.substring(1);
     var VariableArray = SearchString.split('&');
@@ -34,12 +35,14 @@ class App extends Component {
           invitationToken
         });
       }
+      console.log(this.state.invitationToken);
 
       axios.get("http://localhost:5000/invitations")
         .then(res => {
             let invitation = []
             for (const inv of res.data) {
               if(inv.invitation_token === this.state.invitationToken) {
+                console.log(inv);
                 invitation.push(inv);
               }
             };
@@ -47,7 +50,9 @@ class App extends Component {
             this.setState({
               invitationDetail: invitation
             })
+            console.log(this.state);
         });
+        
     }
     console.log(this.state);
   }
@@ -61,9 +66,9 @@ class App extends Component {
   }
 
   registerForm = () => {
-    console.log(this.state.invitationDetail[0].status);
     // if the url has a token then update the invitation status to viewed when the register button is clicked
-    if (this.state.invitationDetail && this.state.invitationDetail[0].status !== 'viewed') {
+    if (this.state.invitationDetail.status !== 'registered' && this.state.invitationDetail.id > 0) {
+      console.log('true');
       const request = {"status": 1}
       let url = "http://localhost:5000/invitation/".concat(this.state.invitationDetail[0].id)
       axios.patch(url, request)
@@ -89,7 +94,11 @@ class App extends Component {
     axios.post("http://localhost:5000/users/create", request)
         .then(res => {
           console.log(res.data);
-          if (this.state.invitationDetail) {
+          this.setState({
+            loginForm: true,
+            registerForm: false
+          });
+          if (this.state.invitationDetail[0].id >  0) {
             const request = {"status": 2}
             let url = "http://localhost:5000/invitation/".concat(this.state.invitationDetail[0].id)
             axios.patch(url, request)
@@ -171,14 +180,7 @@ class App extends Component {
       )
     };
 
-
-
-    let invite = ''
-    if (this.state.jwtToken !== '') {
-      invite = <Invitation />
-    }
-      
-
+    
 
     return (
       <div className="App">
@@ -190,8 +192,6 @@ class App extends Component {
         </div>
 
         {form}
-
-        {invite}
         
       </div>
     );
