@@ -117,7 +117,7 @@ class App extends Component {
 
     // invitation message and inviter email
     var inv = ""
-    if(this.state.invitationDetail.length !== 0) {
+    if(this.state.invitationDetail[0].id !== 0) {
       inv = (
         <div className='invDetail'>
           <h1>Invited by: {this.state.invitationDetail[0].sender_email}</h1>
