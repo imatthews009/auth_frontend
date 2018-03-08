@@ -111,12 +111,12 @@ export default class Login extends React.Component {
     if (this.state.jwt_token !== '') {
       invitationForm = (
         <div className='inviteForm'>
-          <div className="inviteStatus">
+          <div className="userInput">
             <textarea name="message" form="invitationForm" placeholder='Enter text here...'></textarea>
           </div>
           <form onSubmit={this.handleInvitation} id="invitationForm">
 
-            <div className="inviteStatus">
+            <div className="userInput">
               <input
                 placeholder="E-mail"
                 name="email"
