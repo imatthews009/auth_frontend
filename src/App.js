@@ -153,7 +153,7 @@ class App extends Component {
 
           <div className='userInput'>
             <input
-              placeholder="Password"
+              placeholder="Password (8+ characters)"
               name="password"
               id="password"
               type="password"
