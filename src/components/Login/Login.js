@@ -111,6 +111,7 @@ export default class Login extends React.Component {
     if (this.state.jwt_token !== '') {
       invitationForm = (
         <div className='inviteForm'>
+          <h1>Invite a freind</h1>
           <div className="userInput">
             <textarea name="message" form="invitationForm" placeholder='Enter text here...'></textarea>
           </div>
