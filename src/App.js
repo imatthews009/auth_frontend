@@ -37,7 +37,7 @@ class App extends Component {
           invitationToken
         });
       }
-
+      // getting invitation detail from the token
       axios.get("https://api-flow.herokuapp.com/invitations")
         .then(res => {
             let invitation = []
@@ -121,7 +121,7 @@ class App extends Component {
       inv = (
         <div className='invDetail'>
           <h1>Invited by: {this.state.invitationDetail[0].sender_email}</h1>
-          <h1>Message sent with invite: {this.state.invitationDetail[0].message}</h1>
+          <h1>Message: {this.state.invitationDetail[0].message}</h1>
         </div>
       )
     }
@@ -131,39 +131,43 @@ class App extends Component {
     if(this.state.registerForm === true) {
       form = (
         
-        <form onSubmit={this.register}>
+        <form className='registrationForm' onSubmit={this.register}>
           {inv}
-          <label htmlFor="username">Username: </label>
-          <input
-            name="username"
-            id="username"
-            type="username"
-          />
-          <br />
+          <div className='userInput'>
+            <input
+              placeholder="Username"
+              name="username"
+              id="username"
+              type="username"
+            />
+          </div>
 
-          <label htmlFor="email">Email: </label>
-          <input
-            name="email"
-            id="email"
-            type="email"
-          />
-          <br /><br />
+          <div className='userInput'>
+            <input
+              placeholder="E-mail"
+              name="email"
+              id="email"
+              type="email"
+            />
+          </div>
 
-          <label htmlFor="password">Password: </label>
-          <input
-            name="password"
-            id="password"
-            type="password"
-          />
-          <br /><br />
+          <div className='userInput'>
+            <input
+              placeholder="Password"
+              name="password"
+              id="password"
+              type="password"
+            />
+          </div>
 
-          <label htmlFor="password_confirmation">Confirm Password: </label>
-          <input
-            name="password_confirmation"
-            id="password_confirmation"
-            type="password"
-          />
-          <br />
+          <div className='userInput'>
+            <input
+              placeholder="Password Confirmation"
+              name="password_confirmation"
+              id="password_confirmation"
+              type="password"
+            />
+          </div>
 
           <button type="submit">
               Register

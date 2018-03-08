@@ -15,7 +15,6 @@ export default class Login extends React.Component {
       {role: ""},
     ],
     displayLogin: true,
-    test: false,
     invitedUsers: [],
     token: ''
   }
@@ -95,7 +94,7 @@ export default class Login extends React.Component {
 
 
 
-    // pass user id to allow user to get a list of invitations they've sent
+    // pass invited users to invitations component
     let invitations = ''
     if (this.state.userDetail[0].id !== '') {
       invitations = (
@@ -107,9 +106,7 @@ export default class Login extends React.Component {
       )
     }
 
-    let date = ''
-
-    // creating invitation
+    // creating invitation form
     let invitationForm = ''
     if (this.state.jwt_token !== '') {
       invitationForm = (
@@ -149,21 +146,23 @@ export default class Login extends React.Component {
       <div>
         <form onSubmit={this.handleLogin} className='loginForm' style={{display: this.state.displayLogin ? 'block' : 'none' }}>
 
-          <label htmlFor="email">Email: </label>
-          <input
-            name="email"
-            id="email"
-            type="email"
-          />
-          <br /><br />
+          <div className='userInput'>
+            <input
+              placeholder="E-mail"
+              name="email"
+              id="email"
+              type="text"
+            />
+          </div>
 
-          <label htmlFor="password">Password: </label>
-          <input
-            name="password"
-            id="password"
-            type="password"
-          />
-          <br /><br />
+          <div className='userInput'>
+            <input
+              placeholder="Password"
+              name="password"
+              id="password"
+              type="password"
+            />
+          </div>
 
           <button type="submit">
               Login
@@ -171,12 +170,14 @@ export default class Login extends React.Component {
 
         </form>
 
+        { userInformation }
+
         <div className='inviationForm'>
           {invitationForm}
           {invitationLink}
         </div>
 
-        { userInformation }
+      
         { invitations }
         
         
