@@ -26,7 +26,6 @@ class App extends Component {
 
   componentWillMount() {
     // grabbing invitation token from url. Putting invitation detail in state.
-    console.log('state',this.state.invitationDetail[1]);
     let invitationToken = '';
     var SearchString = window.location.search.substring(1);
     var VariableArray = SearchString.split('&');
@@ -38,14 +37,12 @@ class App extends Component {
           invitationToken
         });
       }
-      console.log(this.state.invitationToken);
 
       axios.get("https://api-flow.herokuapp.com/invitations")
         .then(res => {
             let invitation = []
             for (const inv of res.data) {
               if(inv.invitation_token === this.state.invitationToken) {
-                console.log('inv',inv);
                 invitation.push(inv);
                 this.setState({
                   invitationDetail: invitation
@@ -55,7 +52,6 @@ class App extends Component {
         });
         
     }
-    console.log(this.state);
   }
 
   loginForm = () => {
@@ -63,19 +59,15 @@ class App extends Component {
       loginForm: true,
       registerForm: false
     });
-    console.log(this.state);
   }
 
   registerForm = () => {
     // if the url has a token then update the invitation status to viewed when the register button is clicked
-    console.log(this.state)
     if (this.state.invitationDetail[0].status !== 'registered' && this.state.invitationDetail[0].id > 0) {
-      console.log('true');
       const request = {"status": 1}
       let url = "https://api-flow.herokuapp.com/invitation/".concat(this.state.invitationDetail[0].id)
       axios.patch(url, request)
         .then(res => {
-            console.log(res.data);
         });
     }
 
@@ -95,7 +87,6 @@ class App extends Component {
     const request = {"user": {"username": username, "email": email, "password": password,"password_confirmation": password_confirmation}}
     axios.post("https://api-flow.herokuapp.com/users/create", request)
         .then(res => {
-          console.log(res.data);
           this.setState({
             loginForm: true,
             registerForm: false
@@ -105,7 +96,6 @@ class App extends Component {
             let url = "https://api-flow.herokuapp.com/invitation/".concat(this.state.invitationDetail[0].id)
             axios.patch(url, request)
               .then(res => {
-                  console.log(res.data);
               });
           }
         })

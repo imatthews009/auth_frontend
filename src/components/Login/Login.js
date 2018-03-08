@@ -62,7 +62,6 @@ export default class Login extends React.Component {
         this.setState({
           invitedUsers: invited
         })
-        console.log(this.state.invitedUsers);
       });
   
   }
