@@ -147,7 +147,7 @@ export default class Login extends React.Component {
     let invitationLink = ''
     if (this.state.token !== '') {
       invitationLink = (
-        <h1>{'https://api-flow.herokuapp.com/?token='.concat(this.state.token)}</h1>
+        <h1>{'https://front-end-flow.herokuapp.com/?token='.concat(this.state.token)}</h1>
       )
     };
 
