@@ -27,11 +27,11 @@ export default class Login extends React.Component {
     const email = e.target.email.value
     const password = e.target.password.value
     const request = {"auth": {"email": email, "password": password}}
-    axios.post("http://localhost:5000/user_token", request)
+    axios.post("https://api-flow.herokuapp.com/user_token", request)
         .then(res => {
           this.setState({jwt_token: res.data.jwt})
           const AuthStr = 'Bearer '.concat(this.state.jwt_token);
-          axios.get("http://localhost:5000/users/current", { headers: { Authorization: AuthStr } })
+          axios.get("https://api-flow.herokuapp.com/users/current", { headers: { Authorization: AuthStr } })
             .then(res => {
               this.setState({
                 userDetail: [
@@ -50,7 +50,7 @@ export default class Login extends React.Component {
   }
 
   handleInvitations = () => {
-    axios.get("http://localhost:5000/invitations")
+    axios.get("https://api-flow.herokuapp.com/invitations")
       .then(res => {
         let invited = []
         for (const inv of res.data) {
@@ -72,7 +72,7 @@ export default class Login extends React.Component {
     const email = e.target.email.value
     const message = e.target.message.value
     const request = {"email": email, "id": this.state.userDetail[0].id, "message": message, "sender_email": this.state.userDetail[1].email}
-    axios.post("http://localhost:5000/invitations/create", request)
+    axios.post("https://api-flow.herokuapp.com/invitations/create", request)
         .then(res => {
             this.setState({token: res.data.invitation_token}) 
             console.log(res.data.invitation_token);
@@ -147,7 +147,7 @@ export default class Login extends React.Component {
     let invitationLink = ''
     if (this.state.token !== '') {
       invitationLink = (
-        <h1>{'localhost:3000/?token='.concat(this.state.token)}</h1>
+        <h1>{'https://api-flow.herokuapp.com/?token='.concat(this.state.token)}</h1>
       )
     };
 
