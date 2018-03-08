@@ -113,7 +113,7 @@ export default class Login extends React.Component {
         <div className='inviteForm'>
           <h1>Invite a freind</h1>
           <div className="userInput">
-            <textarea name="message" form="invitationForm" placeholder='Enter a message...'></textarea>
+            <textarea name="message" form="invitationForm" placeholder='Enter a messagegi...'></textarea>
           </div>
           <form onSubmit={this.handleInvitation} id="invitationForm">
 
