@@ -20,6 +20,7 @@ export default class Invitation extends React.Component {
         .then(res => {
             this.setState({token: res.data.invitation_token}) 
             console.log(res.data.invitation_token);
+            
         });
   }
 
@@ -41,7 +42,7 @@ export default class Invitation extends React.Component {
             <br />
 
 
-            <button type="submit">
+            <button onClick={this.props.renderInvitations} type="submit">
                 Invite!
             </button>
 

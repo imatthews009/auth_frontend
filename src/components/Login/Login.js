@@ -15,6 +15,8 @@ export default class Login extends React.Component {
       {role: ""},
     ],
     displayLogin: true,
+    test: false,
+    invitedUsers: []
   }
 
 
@@ -38,12 +40,37 @@ export default class Login extends React.Component {
                   {role: res.data.role},
               ]});
             this.setState({displayLogin: !this.state.displayLogin})
+            this.invitationHandler();
           });
         })
         .catch(function (error) {
           console.log(error);
         });
   }
+
+  invitationHandler = () => {
+    console.log('worked');
+    axios.get("http://localhost:5000/invitations")
+      .then(res => {
+        let invited = []
+        for (const inv of res.data) {
+          if(inv.sender_id === this.state.userDetail[0].id) {
+            invited.push(inv);
+          }
+        };
+
+        this.setState({
+          invitedUsers: invited
+        })
+        console.log(this.state.invitedUsers);
+      });
+  
+  }
+
+  test = () => {
+    console.log(this.state.invitedUsers);
+  }
+
 
 
   render() {
@@ -70,7 +97,8 @@ export default class Login extends React.Component {
     if (this.state.jwt_token !== '') {
       invitationForm = <Invitation
                         id={this.state.userDetail[0].id}
-                        email={this.state.userDetail[1].email}/>
+                        email={this.state.userDetail[1].email}
+                        renderInvitations={this.invitationHandler}/>
     }
 
     // pass user id to allow user to get a list of invitations they've sent
@@ -80,15 +108,19 @@ export default class Login extends React.Component {
         <div>
           <h1>Your Invitations</h1>
           <Invitations
-          id={this.state.userDetail[0].id}/> 
+          id={this.state.userDetail[0].id}
+          test={this.props.test}/> 
         </div>
       )
-       
-
     }
 
+    let date = ''
+
     return (
+      
+      
       <div>
+        <button onClick={this.test}>test</button>
         <form onSubmit={this.handleLogin} className='loginForm' style={{display: this.state.displayLogin ? 'block' : 'none' }}>
 
           <label htmlFor="email">Email: </label>
@@ -107,15 +139,35 @@ export default class Login extends React.Component {
           />
           <br /><br />
 
-          <button type="submit">
+          <button type="submit" onClick={this.rerenderInvitations}>
               Login
           </button>
 
         </form>
         { userInformation }
         { invitationForm }
-        { invitations }
+        {/* { invitations } */}
+        
+        {this.state.invitedUsers.map((invitation, index) => {
+          if (invitation.viewed_at) {
+            date = invitation.viewed_at
+          } else {
+            date = invitation.created_at
+          }
+          return (
+
+            <div className="inviteStatus">
+              <h2>E-mail: {invitation.email}</h2>
+              <h2>This invitation was {invitation.status} {date.substring(0,10)} </h2>
+            </div>
+          )
+        })}
+        
       </div>
+
+      
+      
+
     )
   }
 }
