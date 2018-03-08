@@ -1,28 +1,8 @@
 import React from 'react'
-import axios from 'axios';
 
 
 
 export default class Invitation extends React.Component {
-
-  state = {
-    token: '',
-  }
-
-  handleInvitation = e => {
-    e.preventDefault();
-
-    console.log(this.props.email);
-    const email = e.target.email.value
-    const message = e.target.message.value
-    const request = {"email": email, "id": this.props.id, "message": message, "sender_email": this.props.email}
-    axios.post("http://localhost:5000/invitations/create", request)
-        .then(res => {
-            this.setState({token: res.data.invitation_token}) 
-            console.log(res.data.invitation_token);
-            
-        });
-  }
 
 
   render() {

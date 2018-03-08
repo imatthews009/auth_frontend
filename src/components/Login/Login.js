@@ -16,7 +16,8 @@ export default class Login extends React.Component {
     ],
     displayLogin: true,
     test: false,
-    invitedUsers: []
+    invitedUsers: [],
+    token: ''
   }
 
 
@@ -40,7 +41,7 @@ export default class Login extends React.Component {
                   {role: res.data.role},
               ]});
             this.setState({displayLogin: !this.state.displayLogin})
-            this.invitationHandler();
+            this.handleInvitations();
           });
         })
         .catch(function (error) {
@@ -48,7 +49,7 @@ export default class Login extends React.Component {
         });
   }
 
-  invitationHandler = () => {
+  handleInvitations = () => {
     console.log('worked');
     axios.get("http://localhost:5000/invitations")
       .then(res => {
@@ -67,8 +68,17 @@ export default class Login extends React.Component {
   
   }
 
-  test = () => {
-    console.log(this.state.invitedUsers);
+  handleInvitation = e => {
+    e.preventDefault();
+    const email = e.target.email.value
+    const message = e.target.message.value
+    const request = {"email": email, "id": this.state.userDetail[0].id, "message": message, "sender_email": this.state.userDetail[1].id}
+    axios.post("http://localhost:5000/invitations/create", request)
+        .then(res => {
+            this.setState({token: res.data.invitation_token}) 
+            console.log(res.data.invitation_token);
+            this.handleInvitations();
+        });
   }
 
 
@@ -92,14 +102,7 @@ export default class Login extends React.Component {
       
     }
 
-    // pass user id and email to invitation as props to create new invitation
-    let invitationForm = ''
-    if (this.state.jwt_token !== '') {
-      invitationForm = <Invitation
-                        id={this.state.userDetail[0].id}
-                        email={this.state.userDetail[1].email}
-                        renderInvitations={this.invitationHandler}/>
-    }
+
 
     // pass user id to allow user to get a list of invitations they've sent
     let invitations = ''
@@ -108,19 +111,51 @@ export default class Login extends React.Component {
         <div>
           <h1>Your Invitations</h1>
           <Invitations
-          id={this.state.userDetail[0].id}
-          test={this.props.test}/> 
+          invitationsArray={this.state.invitedUsers}/> 
         </div>
       )
     }
 
     let date = ''
 
+    // creating invitation
+    let invitationForm = ''
+    if (this.state.jwt_token !== '') {
+      invitationForm = (
+        <div className='inviteForm'>
+          <textarea name="message" form="invitationForm" placeholder='Enter text here...'></textarea>
+          <form onSubmit={this.handleInvitation} id="invitationForm">
+
+            <label htmlFor="email">Email: </label>
+            <input
+              name="email"
+              id="email"
+              type="email"
+            />
+            <br />
+
+
+            <button type="submit">
+                Invite!
+            </button>
+
+          </form>
+        </div>
+      )
+    }
+
+    
+    let invitationLink = ''
+    if (this.state.token !== '') {
+      invitationLink = (
+        <h1>{'localhost:3000/?token='.concat(this.state.token)}</h1>
+      )
+    };
+
     return (
       
       
       <div>
-        <button onClick={this.test}>test</button>
         <form onSubmit={this.handleLogin} className='loginForm' style={{display: this.state.displayLogin ? 'block' : 'none' }}>
 
           <label htmlFor="email">Email: </label>
@@ -139,29 +174,20 @@ export default class Login extends React.Component {
           />
           <br /><br />
 
-          <button type="submit" onClick={this.rerenderInvitations}>
+          <button type="submit">
               Login
           </button>
 
         </form>
-        { userInformation }
-        { invitationForm }
-        {/* { invitations } */}
-        
-        {this.state.invitedUsers.map((invitation, index) => {
-          if (invitation.viewed_at) {
-            date = invitation.viewed_at
-          } else {
-            date = invitation.created_at
-          }
-          return (
 
-            <div className="inviteStatus">
-              <h2>E-mail: {invitation.email}</h2>
-              <h2>This invitation was {invitation.status} {date.substring(0,10)} </h2>
-            </div>
-          )
-        })}
+        <div className='inviationForm'>
+          {invitationForm}
+          {invitationLink}
+        </div>
+
+        { userInformation }
+        { invitations }
+        
         
       </div>
 
