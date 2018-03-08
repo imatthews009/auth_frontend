@@ -75,7 +75,6 @@ export default class Login extends React.Component {
     axios.post("https://api-flow.herokuapp.com/invitations/create", request)
         .then(res => {
             this.setState({token: res.data.invitation_token}) 
-            console.log(res.data.invitation_token);
             this.handleInvitations();
         });
   }
@@ -86,17 +85,11 @@ export default class Login extends React.Component {
 
     if (this.state.userDetail[0].id !== '') {
 
-      let id = this.state.userDetail[0].id
-      let email = this.state.userDetail[1].email
       let username = this.state.userDetail[2].username
-      let role = this.state.userDetail[3].role
 
       var userInformation = 
         <div className='user-detail'>
-          {/* <h1>ID: {id}</h1>
-          <h1>Email: {email}</h1> */}
           <h1>Hello {username}</h1>
-          {/* <h1>Role: {role}</h1> */}
         </div>
       
     }

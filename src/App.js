@@ -18,12 +18,15 @@ class App extends Component {
     ],
     invitationToken: '',
     senderId: '',
-    invitationDetail: []
+    invitationDetail: [
+        {id: 0,
+        status: ""}
+    ]
   }
 
   componentWillMount() {
     // grabbing invitation token from url. Putting invitation detail in state.
-    console.log('test');
+    console.log('state',this.state.invitationDetail[1]);
     let invitationToken = '';
     var SearchString = window.location.search.substring(1);
     var VariableArray = SearchString.split('&');
@@ -42,15 +45,13 @@ class App extends Component {
             let invitation = []
             for (const inv of res.data) {
               if(inv.invitation_token === this.state.invitationToken) {
-                console.log(inv);
+                console.log('inv',inv);
                 invitation.push(inv);
+                this.setState({
+                  invitationDetail: invitation
+                })
               }
             };
-
-            this.setState({
-              invitationDetail: invitation
-            })
-            console.log(this.state);
         });
         
     }
@@ -67,7 +68,8 @@ class App extends Component {
 
   registerForm = () => {
     // if the url has a token then update the invitation status to viewed when the register button is clicked
-    if (this.state.invitationDetail.status !== 'registered' && this.state.invitationDetail.id > 0) {
+    console.log(this.state)
+    if (this.state.invitationDetail[0].status !== 'registered' && this.state.invitationDetail[0].id > 0) {
       console.log('true');
       const request = {"status": 1}
       let url = "https://api-flow.herokuapp.com/invitation/".concat(this.state.invitationDetail[0].id)
