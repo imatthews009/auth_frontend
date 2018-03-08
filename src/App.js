@@ -37,7 +37,7 @@ class App extends Component {
       }
       console.log(this.state.invitationToken);
 
-      axios.get("http://localhost:5000/invitations")
+      axios.get("https://api-flow.herokuapp.com/invitations")
         .then(res => {
             let invitation = []
             for (const inv of res.data) {
@@ -70,7 +70,7 @@ class App extends Component {
     if (this.state.invitationDetail.status !== 'registered' && this.state.invitationDetail.id > 0) {
       console.log('true');
       const request = {"status": 1}
-      let url = "http://localhost:5000/invitation/".concat(this.state.invitationDetail[0].id)
+      let url = "https://api-flow.herokuapp.com/invitation/".concat(this.state.invitationDetail[0].id)
       axios.patch(url, request)
         .then(res => {
             console.log(res.data);
@@ -91,7 +91,7 @@ class App extends Component {
     const password = e.target.password.value
     const password_confirmation = e.target.password_confirmation.value
     const request = {"user": {"username": username, "email": email, "password": password,"password_confirmation": password_confirmation}}
-    axios.post("http://localhost:5000/users/create", request)
+    axios.post("https://api-flow.herokuapp.com/users/create", request)
         .then(res => {
           console.log(res.data);
           this.setState({
@@ -100,7 +100,7 @@ class App extends Component {
           });
           if (this.state.invitationDetail[0].id >  0) {
             const request = {"status": 2}
-            let url = "http://localhost:5000/invitation/".concat(this.state.invitationDetail[0].id)
+            let url = "https://api-flow.herokuapp.com/invitation/".concat(this.state.invitationDetail[0].id)
             axios.patch(url, request)
               .then(res => {
                   console.log(res.data);
