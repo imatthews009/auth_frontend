@@ -12,6 +12,17 @@ form input{
   text-align: left;
   padding: 0px 15px;
   font-weight: bold;
+  background-color: #e6e6e6;
+  border: 0px solid;
+  font-size: 18px;
+}
+
+form textarea{
+  width: 350px;
+  height: 50px;
+  text-align: left;
+  padding: 0px 15px;
+  font-weight: bold;
   color: #403866;
   background-color: #e6e6e6;
   border: 0px solid;
@@ -35,4 +46,5 @@ form button{
   background-color: #827ffe;
   font-size: 18px;
 }
+
 
